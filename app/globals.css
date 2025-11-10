@@ -124,6 +124,12 @@
   }
 }
 
+@utility scrollbar-hidden {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 main {
   display: flex;
   flex-direction: column;
@@ -136,4 +142,33 @@ section {
   width: 100%;
   padding-left: 20px;
   padding-right: 20px;
+}
+
+.half-star {
+  --color-full: orange;
+  --color-empty: #ddd;
+  --ratio: 50%;
+  font-size: 1.5rem;
+
+  color: var(--color-empty);
+  background: linear-gradient(
+    to right,
+    var(--color-full),
+    var(--color-full) var(--ratio),
+    var(--color-empty) var(--ratio),
+    var(--color-empty)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.full-star {
+  --color-full: orange;
+  font-size: 1.5rem;
+  color: var(--color-full);
+}
+.empty-star {
+  --color-empty: #ddd;
+  font-size: 1.5rem;
+  color: var(--color-empty);
 }

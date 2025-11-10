@@ -20,4 +20,18 @@ export const projects = [
     level: "medium",
     href: "/football",
   },
+  {
+    id: 4,
+    name: "Recipes page",
+    status: "Finished",
+    level: "medium",
+    href: "/recipes",
+  },
+  {
+    id: 5,
+    name: "Students dashboard",
+    status: "Finished",
+    level: "medium",
+    href: "/students",
+  },
 ];
