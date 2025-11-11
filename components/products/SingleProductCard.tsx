@@ -1,13 +1,31 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Product } from "@/data/products";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Tags } from "lucide-react";
 import { renderStars } from "@/lib/helpers";
+import { cn } from "@/lib/utils";
+
+// Category color mapping - easier to maintain and extend
+const categoryColors: Record<string, string> = {
+  Electronics: "bg-cyan-600",
+  Fashion: "bg-teal-500",
+  Sports: "bg-green-600",
+  "Home & Kitchen": "bg-purple-800",
+  Books: "bg-yellow-900",
+};
 
 const SingleProductCard = ({ product }: { product: Product }) => {
+  // Get category color, default to gray if category not found
+  const categoryColor = categoryColors[product.category] || "bg-gray-600";
+
   return (
-    <div className="dark:border-white/30 border-black/30 border rounded-lg bg-gray-700/20">
-      <div className="flex flex-col relative">
+    <div
+      className={cn(
+        "dark:border-white/30 border-black/30 border rounded-lg bg-gray-700/20 h-full flex flex-col",
+        product.inStock ? "opacity-100" : "opacity-40"
+      )}
+    >
+      <div className="flex flex-col relative flex-1">
         {product.discount && (
           <div className="absolute top-2 left-2 z-10 bg-green-500 px-4 py-1 rounded-lg font-bold text-xl">
             -{product.discount}% Off
@@ -28,13 +46,21 @@ const SingleProductCard = ({ product }: { product: Product }) => {
             className="w-full h-60 max-h-60 object-cover"
           />
         </div>
-        <div className="rounded-b-lg py-4 px-4 flex flex-col justify-between min-h-72">
+        <div className="text-center font-bold text-xl">
+          <h1 className={cn("p-2", categoryColor)}>{product.category}</h1>
+        </div>
+
+        <div className="rounded-b-lg py-4 px-4 flex flex-col justify-between h-80">
           {/* Product Name + Description */}
-          <div className="flex flex-col flex-1">
-            <h1 className="font-bold text-center text-xl">{product.name}</h1>
-            <p className="pt-2 text-md">{product.description}</p>
+          <div className="flex flex-col flex-1 min-h-0">
+            <h1 className="font-bold text-center text-xl mb-2">
+              {product.name}
+            </h1>
+            <p className="text-md overflow-hidden text-ellipsis line-clamp-3">
+              {product.description}
+            </p>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col justify-end">
             {/* Price + Rating */}
             <div className="flex justify-between pt-5 items-end">
               <div>
@@ -49,10 +75,9 @@ const SingleProductCard = ({ product }: { product: Product }) => {
                     </div>
                     <div className="text-4xl sm:text-3xl md:text-4xl font-bold text-green-500">
                       $
-                      {(
-                        (product.price / 100) *
-                        (100 - product.discount)
-                      ).toFixed(2)}
+                      {(product.price * (1 - product.discount / 100)).toFixed(
+                        2
+                      )}
                     </div>
                   </div>
                 )}
@@ -65,15 +90,19 @@ const SingleProductCard = ({ product }: { product: Product }) => {
                 </div>
               </div>
             </div>
-            {/* Buy Button */}
-            {product.inStock && (
-              <div className="mt-5">
+            <div className="mt-5 flex flex-col gap-2">
+              <div className="flex items-center gap-1 text-sm justify-end">
+                <Tags className="h-4 w-4" />
+                {product.tags.join(", ").toUpperCase()}
+              </div>
+              {/* Buy Button */}
+              {product.inStock && (
                 <Button className="w-full cursor-pointer">
                   <ShoppingCart className="w-4 h-4" />
                   Buy Now
                 </Button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

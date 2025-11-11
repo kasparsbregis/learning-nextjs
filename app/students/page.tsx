@@ -25,17 +25,13 @@ const StudentsPage = () => {
   const filteredStudents = filteredStudentsByName.filter((student) => {
     if (skolnieki === "all") {
       return true;
-    }
-    if (skolnieki === "a") {
+    } else if (skolnieki === "a") {
       return student.grade >= 90 && student.grade <= 100;
-    }
-    if (skolnieki === "b") {
+    } else if (skolnieki === "b") {
       return student.grade >= 80 && student.grade < 90;
-    }
-    if (skolnieki === "c") {
+    } else if (skolnieki === "c") {
       return student.grade >= 70 && student.grade < 80;
-    }
-    if (skolnieki === "d") {
+    } else if (skolnieki === "d") {
       return student.grade < 70;
     }
   });
@@ -43,11 +39,9 @@ const StudentsPage = () => {
   const filteredStudentsByRadio = filteredStudents.filter((student) => {
     if (activity === "showAll") {
       return true;
-    }
-    if (activity === "active") {
+    } else if (activity === "active") {
       return student.isActive === true;
-    }
-    if (activity === "inactive") {
+    } else if (activity === "inactive") {
       return student.isActive === false;
     }
   });
