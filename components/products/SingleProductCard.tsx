@@ -4,9 +4,10 @@ import { Product } from "@/data/products";
 import { ShoppingCart, Tags } from "lucide-react";
 import { renderStars } from "@/lib/helpers";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 // Category color mapping - easier to maintain and extend
-const categoryColors: Record<string, string> = {
+export const categoryColors: Record<string, string> = {
   Electronics: "bg-cyan-600",
   Fashion: "bg-teal-500",
   Sports: "bg-green-600",
@@ -97,10 +98,12 @@ const SingleProductCard = ({ product }: { product: Product }) => {
               </div>
               {/* Buy Button */}
               {product.inStock && (
-                <Button className="w-full cursor-pointer">
-                  <ShoppingCart className="w-4 h-4" />
-                  Buy Now
-                </Button>
+                <Link href={`/products/${product.id}`}>
+                  <Button className="w-full cursor-pointer">
+                    <ShoppingCart className="w-4 h-4" />
+                    Buy Now
+                  </Button>
+                </Link>
               )}
             </div>
           </div>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Methods Practice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        h1 {
+            color: #4ec9b0;
+        }
+        .task {
+            background: #252526;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 3px solid #4ec9b0;
+            border-radius: 5px;
+        }
+        .task h3 {
+            color: #569cd6;
+            margin-top: 0;
+        }
+        code {
+            background: #1e1e1e;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #ce9178;
+        }
+        .hint {
+            background: #3c3c3c;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            color: #858585;
+        }
+        button {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #1177bb;
+        }
+        #output {
+            background: #1e1e1e;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            border: 1px solid #3c3c3c;
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 JavaScript Array Methods Practice</h1>
+    <p>Open the browser console (F12) to see your results!</p>
+    
+    <div class="task">
+        <h3>Task 1.1: Filter even numbers</h3>
+        <p>From the array <code>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</code>, filter even numbers</p>
+        <div class="hint">Hint: <code>number => number % 2 === 0</code></div>
+        <button onclick="task1_1()">Run Example</button>
+    </div>
+
+    <div class="task">
+        <h3>Task 1.2: Filter numbers > 5</h3>
+        <p>Filter numbers greater than 5</p>
+        <div class="hint">Hint: <code>number => number > 5</code></div>
+        <button onclick="task1_2()">Run Example</button>
+    </div>
+
+    <div class="task">
+        <h3>Task 2.1: Map - Double each number</h3>
+        <p>Transform each number by doubling it</p>
+        <div class="hint">Hint: <code>number => number * 2</code></div>
+        <button onclick="task2_1()">Run Example</button>
+    </div>
+
+    <div class="task">
+        <h3>Task 2.2: Map - Convert to strings</h3>
+        <p>Convert each number to a string</p>
+        <div class="hint">Hint: <code>number => number.toString()</code></div>
+        <button onclick="task2_2()">Run Example</button>
+    </div>
+
+    <div class="task">
+        <h3>Task 3.1: Find number 7</h3>
+        <p>Find the number 7 in the array</p>
+        <div class="hint">Hint: <code>number => number === 7</code></div>
+        <button onclick="task3_1()">Run Example</button>
+    </div>
+
+    <div class="task">
+        <h3>Task 4.1: Reduce - Sum all numbers</h3>
+        <p>Add up all numbers in the array</p>
+        <div class="hint">Hint: <code>(total, num) => total + num</code> (start with 0)</div>
+        <button onclick="task4_1()">Run Example</button>
+    </div>
+
+    <div id="output"></div>
+
+    <script>
+        const testNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const output = document.getElementById('output');
+
+        function log(message) {
+            output.textContent += message + '\n';
+            console.log(message);
+        }
+
+        function clearOutput() {
+            output.textContent = '';
+        }
+
+        // Example solutions (try to write your own first!)
+        function task1_1() {
+            clearOutput();
+            log('Task 1.1: Filter even numbers');
+            log('Original array: ' + JSON.stringify(testNumbers));
+            
+            // YOUR CODE HERE:
+            const evenNumbers = testNumbers.filter(number => number % 2 === 0);
+            
+            log('Result: ' + JSON.stringify(evenNumbers));
+            log('\nTry writing this yourself in the console!');
+        }
+
+        function task1_2() {
+            clearOutput();
+            log('Task 1.2: Filter numbers > 5');
+            log('Original array: ' + JSON.stringify(testNumbers));
+            
+            const greaterThan5 = testNumbers.filter(number => number > 5);
+            
+            log('Result: ' + JSON.stringify(greaterThan5));
+        }
+
+        function task2_1() {
+            clearOutput();
+            log('Task 2.1: Double each number');
+            log('Original array: ' + JSON.stringify(testNumbers));
+            
+            const doubled = testNumbers.map(number => number * 2);
+            
+            log('Result: ' + JSON.stringify(doubled));
+        }
+
+        function task2_2() {
+            clearOutput();
+            log('Task 2.2: Convert to strings');
+            log('Original array: ' + JSON.stringify(testNumbers));
+            
+            const asStrings = testNumbers.map(number => number.toString());
+            
+            log('Result: ' + JSON.stringify(asStrings));
+        }
+
+        function task3_1() {
+            clearOutput();
+            log('Task 3.1: Find number 7');
+            log('Original array: ' + JSON.stringify(testNumbers));
+            
+            const found = testNumbers.find(number => number === 7);
+            
+            log('Result: ' + found);
+        }
+
+        function task4_1() {
+            clearOutput();
+            log('Task 4.1: Sum all numbers');
+            log('Original array: ' + JSON.stringify(testNumbers));
+            
+            const sum = testNumbers.reduce((total, num) => total + num, 0);
+            
+            log('Result: ' + sum);
+        }
+
+        // Copy your movies data here to practice with real data!
+        log('💡 Tip: Open the console (F12) and try writing your own code!');
+        log('💡 Copy your movies array here to practice with real data.');
+    </script>
+</body>
+</html>
+
+
+
+

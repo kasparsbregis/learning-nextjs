@@ -37,8 +37,15 @@ export const projects = [
   {
     id: 6,
     name: "E-commerce store",
-    status: "In progress",
+    status: "Finished",
     level: "medium",
     href: "/products",
+  },
+  {
+    id: 7,
+    name: "Movie website",
+    status: "In progress",
+    level: "medium",
+    href: "/movies",
   },
 ];

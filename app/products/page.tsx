@@ -4,6 +4,7 @@ import InStockRadio from "@/components/products/InStockRadio";
 import PriceCheckbox from "@/components/products/PriceCheckbox";
 import SearchInput from "@/components/products/SearchInput";
 import SingleProductCard from "@/components/products/SingleProductCard";
+import SortFilter from "@/components/products/SortFilter";
 import { Button } from "@/components/ui/button";
 import { products } from "@/data/products";
 import { Trash2 } from "lucide-react";
@@ -73,6 +74,25 @@ const ProductsPage = () => {
   // const allPrices = filterByCategory.flatMap((p) => p.price);
   // const sortAllPrices = [...allPrices].sort((a, b) => b - a);
   // const highestPrice = sortAllPrices[0] || 0;
+  const [sortBy, setSortBy] = useState<string>("default");
+  let sortedProducts = filterBySearch;
+  if (sortBy === "default") {
+    sortedProducts = filterBySearch;
+  } else if (sortBy === "priceLowToHigh") {
+    sortedProducts = [...filterBySearch].sort((a, b) => a.price - b.price);
+  } else if (sortBy === "priceHighToLow") {
+    sortedProducts = [...filterBySearch].sort((a, b) => b.price - a.price);
+  } else if (sortBy === "ratingHighToLow") {
+    sortedProducts = [...filterBySearch].sort((a, b) => b.rating - a.rating);
+  } else if (sortBy === "mostReviewed") {
+    sortedProducts = [...filterBySearch].sort((a, b) => b.reviews - a.reviews);
+  } else if (sortBy === "nameAZ") {
+    sortedProducts = [...filterBySearch].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+  } else {
+    return false;
+  }
   return (
     <section className="flex flex-col h-[calc(100vh-3.5rem)] pt-20">
       <h1 className="text-3xl font-bold text-center">All products</h1>
@@ -84,7 +104,7 @@ const ProductsPage = () => {
           setSelectedCategory={setSelectedCategory}
         />
         <div className="pt-4">
-          Showing {filterBySearch.length} products of {products.length}
+          Showing {sortedProducts.length} products of {products.length}
         </div>
       </div>
       <div className="flex flex-col py-4">
@@ -100,7 +120,7 @@ const ProductsPage = () => {
           />
         </div>
       </div>
-      <div className="flex flex-col items-end px-4">
+      <div className="flex flex-col items-end px-4 gap-4">
         <div className="flex gap-2">
           <SearchInput
             searchParams={searchParams}
@@ -115,9 +135,12 @@ const ProductsPage = () => {
             <Trash2 />
           </Button>
         </div>
+        <div>
+          <SortFilter sortBy={sortBy} setSortBy={setSortBy} />
+        </div>
       </div>
       <div className="py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-8 px-4">
-        {filterBySearch.map((product) => (
+        {sortedProducts.map((product) => (
           <SingleProductCard key={product.id} product={product} />
         ))}
       </div>

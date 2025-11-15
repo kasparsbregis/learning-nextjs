@@ -2,35 +2,44 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { useEffect, useState } from "react";
 
 export function ModeToggle() {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // This is a standard pattern for handling hydration with next-themes
+    // We need to wait for client-side mount before reading theme to avoid hydration mismatch
+    // eslint-disable-next-line
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div>
+        <Sun className="opacity-0" />
+      </div>
+    );
+  }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild className="cursor-pointer">
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div>
+      {theme === "light" ? (
+        <div
+          onClick={() => setTheme("dark")}
+          className="border p-2 border-black/30 rounded-lg"
+        >
+          <Moon className="h-4 w-4" />
+        </div>
+      ) : (
+        <div
+          onClick={() => setTheme("light")}
+          className="border p-2 border-white/30 rounded-lg"
+        >
+          <Sun className="h-4 w-4" />
+        </div>
+      )}
+    </div>
   );
 }
