@@ -9,8 +9,22 @@ export async function GET() {
     return NextResponse.json(players);
   } catch (error) {
     console.error("Error fetching players:", error);
+    
+    // More detailed error information for debugging
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    
+    console.error("Error details:", {
+      message: errorMessage,
+      stack: errorStack,
+      databaseUrl: process.env.DATABASE_URL ? "Set" : "Missing",
+    });
+    
     return NextResponse.json(
-      { error: "Failed to fetch players" },
+      { 
+        error: "Failed to fetch players",
+        message: process.env.NODE_ENV === "development" ? errorMessage : undefined
+      },
       { status: 500 }
     );
   }
