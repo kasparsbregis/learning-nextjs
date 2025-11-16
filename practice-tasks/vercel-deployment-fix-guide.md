@@ -13,26 +13,44 @@ Your API works locally but returns 500 errors on Vercel. This is usually due to:
 
 ## ✅ Fixes Applied
 
-### 1. Added `postinstall` Script
+### 1. Added Prisma Generate to Build Script
 
 **File: `package.json`**
 
 ```json
 "scripts": {
+  "build": "prisma generate && next build",
   "postinstall": "prisma generate"
 }
 ```
 
-This ensures Prisma Client is generated during Vercel's build process.
+This ensures Prisma Client and Query Engine binaries are generated during Vercel's build process.
 
-### 2. Updated Prisma Client Configuration
+### 2. Added Binary Targets to Prisma Schema
+
+**File: `prisma/schema.prisma`**
+
+```prisma
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+```
+
+This tells Prisma to generate binaries for:
+- `native` - Your local development platform
+- `rhel-openssl-3.0.x` - Vercel's serverless runtime platform
+
+**This is critical!** Without this, Prisma won't have the correct Query Engine binary for Vercel's Linux environment.
+
+### 3. Updated Prisma Client Configuration
 
 **File: `lib/prisma.ts`**
 
 - Disabled query logging in production (only logs errors)
 - This prevents performance issues and reduces log noise
 
-### 3. Enhanced Error Logging
+### 4. Enhanced Error Logging
 
 **File: `app/api/players/route.ts`**
 
@@ -129,12 +147,13 @@ Visit: `https://your-app.vercel.app/api/players`
 
 ## 🔍 Common Issues & Solutions
 
-### Issue 1: "Prisma Client has not been initialized"
+### Issue 1: "Prisma Client has not been initialized" or "Query Engine not found"
 
 **Solution:**
-- The `postinstall` script should fix this
-- Make sure it's in your `package.json`
-- Redeploy on Vercel
+- Make sure `prisma generate` is in your build script: `"build": "prisma generate && next build"`
+- Add `binaryTargets = ["native", "rhel-openssl-3.0.x"]` to your Prisma schema generator
+- Run `npx prisma generate` locally to regenerate with new binary targets
+- Commit and redeploy on Vercel
 
 ### Issue 2: "Can't reach database server"
 
@@ -163,8 +182,11 @@ Before deploying to Vercel:
 
 - [ ] `DATABASE_URL` is set in Vercel environment variables
 - [ ] Using **Connection Pooler** URL (not direct connection)
+- [ ] `prisma generate` is in build script: `"build": "prisma generate && next build"`
+- [ ] `binaryTargets = ["native", "rhel-openssl-3.0.x"]` is in `prisma/schema.prisma`
 - [ ] `postinstall` script is in `package.json`
 - [ ] Prisma Client logging is disabled in production
+- [ ] Run `npx prisma generate` locally after schema changes
 - [ ] Tested locally with the same connection string
 
 ---
