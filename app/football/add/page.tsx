@@ -81,7 +81,7 @@ const AddFootballPlayer = () => {
   return (
     <section className="flex flex-col items-center h-[calc(100vh-3.5rem)] pt-20">
       <h1 className="text-3xl font-bold">Add A Player</h1>
-      <div className="mt-10 w-full max-w-md border border-[var(--background-light)] p-4 rounded-xl">
+      <div className="mt-10 w-full max-w-md border border-(--background-light) p-4 rounded-xl">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField

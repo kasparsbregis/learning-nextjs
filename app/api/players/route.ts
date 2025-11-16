@@ -1,23 +1,26 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { neon } from "@neondatabase/serverless";
+
+// Initialize Neon client
+const sql = neon(process.env.DATABASE_URL!);
 
 export async function GET() {
   try {
-    const players = await prisma.players.findMany({
-      orderBy: { createdAt: "desc" },
-    });
+    // Fetch all players from database
+    const players = await sql`
+      SELECT * FROM "Players" 
+      ORDER BY "createdAt" DESC
+    `;
+
     return NextResponse.json(players);
   } catch (error) {
     console.error("Error fetching players:", error);
 
-    // More detailed error information for debugging
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
-    const errorStack = error instanceof Error ? error.stack : undefined;
 
     console.error("Error details:", {
       message: errorMessage,
-      stack: errorStack,
       databaseUrl: process.env.DATABASE_URL ? "Set" : "Missing",
     });
 
@@ -37,17 +40,14 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, age, team, position, isActive } = body;
 
-    const newPlayer = await prisma.players.create({
-      data: {
-        name,
-        age,
-        team,
-        position,
-        isActive,
-      },
-    });
+    // Insert new player
+    const newPlayer = await sql`
+      INSERT INTO "Players" (name, age, team, position, "isActive", "createdAt")
+      VALUES (${name}, ${age}, ${team}::text[], ${position}, ${isActive}, NOW())
+      RETURNING *
+    `;
 
-    return NextResponse.json(newPlayer, { status: 201 });
+    return NextResponse.json(newPlayer[0], { status: 201 });
   } catch (error) {
     console.error("Error creating player:", error);
     return NextResponse.json(
