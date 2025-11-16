@@ -11,11 +11,9 @@ if (typeof globalThis !== "undefined") {
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
 // Create PrismaNeon adapter - ALWAYS use it to avoid Query Engine binary issues
-// This works in both local and serverless environments
+// PrismaNeon expects a PoolConfig object, not a Pool instance
 const connectionString = process.env.DATABASE_URL!;
-const adapter = new PrismaNeon({
-  connectionString: connectionString,
-});
+const adapter = new PrismaNeon({ connectionString });
 
 export const prisma =
   globalForPrisma.prisma ||
