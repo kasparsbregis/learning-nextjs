@@ -44,7 +44,7 @@ export const projects = [
   {
     id: 7,
     name: "Movie website",
-    status: "In progress",
+    status: "Finished",
     level: "medium",
     href: "/movies",
   },

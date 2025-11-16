@@ -8,6 +8,8 @@ import {
   Users,
 } from "lucide-react";
 import Image from "next/image";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 const MovieComponent = ({ movie }: { movie: Movie }) => {
   const hours = Math.floor(movie.runtime / 60);
@@ -43,18 +45,19 @@ const MovieComponent = ({ movie }: { movie: Movie }) => {
           ))}
         </div>
         {movie.isPopular && (
-          <p className="absolute top-2 left-2 z-10 bg-yellow-600/30 px-2 py-1 rounded-full text-[10px] border border-yellow-300/50 text-yellow-600">
+          <p className="absolute top-2 left-2 z-10 bg-yellow-600/50 px-2 py-1 rounded-full text-[10px] border border-yellow-300/50 text-yellow-300">
             ⭐ Popular
           </p>
         )}
-
-        <Image
-          src={movie.poster}
-          alt={movie.title}
-          width={400}
-          height={600}
-          className="w-full h-full object-cover"
-        />
+        <Link href={`/movies/${movie.id}`}>
+          <Image
+            src={movie.poster}
+            alt={movie.title}
+            width={400}
+            height={600}
+            className="w-full h-full object-cover hover:scale-110 transition-all duration-300"
+          />
+        </Link>
       </div>
       <div className="flex flex-col mt-2 justify-between gap-2 grow pb-4">
         <div className="flex flex-col gap-2 px-2 ">
@@ -63,7 +66,8 @@ const MovieComponent = ({ movie }: { movie: Movie }) => {
           </h1>
           <div className="flex items-center gap-2">
             <ChartLine className="h-4 w-4" />
-            Rating: <span className="font-bold">{movie.rating}</span>
+            Rating:{" "}
+            <span className="font-bold">{movie.rating.toFixed(1)}/10</span>
           </div>
           <div className="flex items-center gap-2">
             <Clapperboard className="h-4 w-4" />
@@ -84,6 +88,13 @@ const MovieComponent = ({ movie }: { movie: Movie }) => {
           <div className="flex items-center gap-2">
             <Globe className="h-4 w-4" />
             {movie.language}
+          </div>
+          <div>
+            <Link href={`/movies/${movie.id}`}>
+              <Button className="w-full cursor-pointer" variant={"outline"}>
+                Movie Page
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

@@ -48,24 +48,25 @@ The data file is located at: `data/movies.ts`
 
 <!-- - Display all movies in a grid or list layout -->
 <!-- - **Search functionality**: Search by title, director, or cast member names -->
+<!-- - **Genre filter**: Filter movies by genre (multiple genres can be selected) -->
+<!-- - **Year filter**: Filter by release year (maybe a range or specific years) -->
+<!-- - **Rating filter**: Filter movies by minimum rating (e.g., 7.0+, 8.0+) -->
+<!-- - **Language filter**: Filter by language -->
 
-- **Genre filter**: Filter movies by genre (multiple genres can be selected)
-- **Year filter**: Filter by release year (maybe a range or specific years)
-- **Rating filter**: Filter movies by minimum rating (e.g., 7.0+, 8.0+)
-- **Language filter**: Filter by language
 - **Sort options**: Sort by:
   - Rating (highest to lowest)
   - Release year (newest to oldest, or oldest to newest)
   - Runtime (shortest to longest, or longest to shortest)
   - Title (A-Z, Z-A)
-- **Popular movies toggle**: Option to show only popular movies
-- Display movie count (e.g., "Showing 15 of 20 movies")
-- Each movie card should link to its detail page
+    <!-- - **Popular movies toggle**: Option to show only popular movies -->
+    <!-- - Display movie count (e.g., "Showing 15 of 20 movies") -->
+    <!-- - Each movie card should link to its detail page -->
 
 **Movie Card should show:**
 
-- Poster image
-- Title
+<!-- - Poster image -->
+<!-- - Title -->
+
 - Release year
 - Rating (display nicely, maybe with stars or just the number)
 - Genres (comma-separated)
@@ -143,4 +144,3 @@ You might want to create these reusable components:
 4. Import and use the `movies` array from `data/movies.ts`
 
 Good luck! You've got this! 🎬
-
