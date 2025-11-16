@@ -10,16 +10,17 @@ if (typeof globalThis !== "undefined") {
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-// Create PrismaNeon adapter for serverless (Vercel)
-// This avoids the need for Query Engine binaries
+// Create PrismaNeon adapter - ALWAYS use it to avoid Query Engine binary issues
+// This works in both local and serverless environments
 const connectionString = process.env.DATABASE_URL!;
-const adapter = new PrismaNeon({ connectionString });
+const adapter = new PrismaNeon({
+  connectionString: connectionString,
+});
 
 export const prisma =
   globalForPrisma.prisma ||
   new PrismaClient({
-    // Use adapter in production (Vercel) to avoid Query Engine binary issues
-    adapter: process.env.VERCEL ? adapter : undefined,
+    adapter: adapter, // Always use adapter - no Query Engine needed
     log:
       process.env.NODE_ENV === "development"
         ? ["query", "error", "warn"]
